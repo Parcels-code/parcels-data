@@ -12,7 +12,6 @@ for f in files:
     time = np.datetime64(f"{filetime}:00:00")
 
     ds_tmp = ds_tmp.assign_coords(time=[time])
-    ds_tmp.to_netcdf(f, mode="w", format="NETCDF4")
+    ds_tmp.to_netcdf(f, mode="w", format="NETCDF4", encoding={"time": {"units": "days since 2025-01-01 00:00:00"}})
 
-ds_all = xr.open_mfdataset(files, data_vars="minimal", coords="minimal", compat="override",)
-print(ds_all)
+ds_all = xr.open_mfdataset(files, decode_cf=False, data_vars="minimal", coords="minimal", compat="override",)
